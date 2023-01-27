@@ -2,16 +2,17 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <PackageId>Seq.App.Telegram</PackageId>
-    <Description>An app for Seq (http://getseq.net) that forwards messages to Telegram.</Description>
-    <Authors>STDray</Authors>
+    <PackageId>Seq.App.Telegram.Alerts</PackageId>
+    <Description>A fork of stdray/Seq.App.Telegram that allows Seq to send Alerts to Telegram.</Description>
+    <Authors>STDray, sampletext32</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageIcon>icon.png</PackageIcon>
-    <PackageProjectUrl>https://github.com/stdray/Seq.App.Telegram</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/sampletext32/Seq.App.Telegram.Alerts</PackageProjectUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageTags>seq-app seq serilog events telegram</PackageTags>
+    <PackageTags>seq-app seq serilog alert telegram</PackageTags>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <IncludeBuildOutput>true</IncludeBuildOutput>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
 
