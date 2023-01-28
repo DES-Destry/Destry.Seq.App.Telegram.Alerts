@@ -1,4 +1,13 @@
-# Seq.App.Telegram
+# Seq.App.Telegram.Alerts
+
+## This is a fork of Seq.App.Telegram adapted to send Alerts from Seq to Telegram.
+
+## Example of an alert
+
+![image](https://user-images.githubusercontent.com/44116740/215276423-af1ee133-ae52-40ae-b253-a29afad14ce9.png)
+
+# There goes original README
+
 An app for Seq (http://getseq.net) that forwards messages to Telegram group chat. Socks5 proxy supported.
 
 [![NuGet](https://img.shields.io/nuget/v/Seq.App.Telegram.svg?style=flat-square)](https://www.nuget.org/packages/Seq.App.Telegram/)
