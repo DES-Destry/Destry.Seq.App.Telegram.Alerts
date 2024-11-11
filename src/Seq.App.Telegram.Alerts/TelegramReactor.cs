@@ -5,13 +5,14 @@ using System.Threading.Tasks;
 using MihaZupan;
 using Seq.Apps;
 using Seq.Apps.LogEvents;
+using Serilog.Events;
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 
 namespace Seq.App.Telegram.Alerts
 {
     [SeqApp("Telegram notifier", Description = "Sends alerts to Telegram.")]
-    public class TelegramReactor : SeqApp, ISubscribeToAsync<LogEventData>
+    public class TelegramReactor : SeqApp, ISubscribeToAsync<LogEvent>
     {
         [SeqAppSetting(
             DisplayName = "Bot authentication token",
@@ -28,6 +29,12 @@ namespace Seq.App.Telegram.Alerts
             HelpText = "Used for generating permalinks to events in Telegram messages.",
             IsOptional = true)]
         public string BaseUrl { get; set; }
+        
+        [SeqAppSetting(
+            HelpText = "The message template to use when writing the message to Telegram. Refer to https://tlgrm.ru/docs/bots/api#formatting-options for Markdown style formatting options. Event property values can be added in the format [PropertyKey]. The default is \"[RenderedMessage]\"",
+            InputType = SettingInputType.LongText,
+            IsOptional = true)]
+        public string MessageTemplate { get; set; }
 
         [SeqAppSetting(
             DisplayName = "Suppression time (minutes)",
@@ -68,12 +75,12 @@ namespace Seq.App.Telegram.Alerts
 
         private string GetBaseUri() => (BaseUrl ?? Host.BaseUri).TrimEnd('/');
 
-        public async Task OnAsync(Event<LogEventData> evt)
+        public async Task OnAsync(Event<LogEvent> evt)
         {
             if (!_throttling.TryBegin(evt.EventType, TimeSpan.FromMinutes(SuppressionMinutes)))
                 return;
-            var formatter = new MessageFormatter(Log, GetBaseUri());
-            var message = formatter.GenerateMessageText(evt);
+            var formatter = new MessageFormatter(Log, GetBaseUri(), MessageTemplate);
+            var message = formatter.GenerateMessageText(evt.Data);
             try
             {
                 await _telegram.Value.SendTextMessageAsync(ChatId, message, ParseMode.Markdown);

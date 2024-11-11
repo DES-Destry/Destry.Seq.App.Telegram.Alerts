@@ -1,61 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using Newtonsoft.Json;
+﻿using System.IO;
+using Seq.Syntax.Templates;
 using Seq.Apps;
 using Seq.Apps.LogEvents;
 using Serilog;
+using Serilog.Events;
+using Serilog.Formatting;
 
 namespace Seq.App.Telegram.Alerts
 {
     public class MessageFormatter
     {
-        public MessageFormatter(ILogger log, string baseUrl)
+        public MessageFormatter(ILogger log, string baseUrl, string messageTemplate)
         {
             Log = log;
             BaseUrl = baseUrl;
+            MessageTemplate = messageTemplate ?? "[RenderedMessage]";
         }
 
         public ILogger Log { get; }
+        public string MessageTemplate { get; }
         public string BaseUrl { get; }
-
-        public string GenerateMessageText(Event<LogEventData> evt)
+        
+        static string Format(ITextFormatter template, LogEvent evt)
         {
-            var data = evt.Data;
+            var writer = new StringWriter();
+            template.Format(evt, writer);
+            return writer.ToString();
+        }
 
-            if (data.Properties is null)
-            {
-                return "No properties were specified for an event";
-            }
-            
-            if (data.Properties.ContainsKey("Source") && data.Properties.ContainsKey("Alert"))
-            {
-                dynamic source = data.Properties["Source"];
-                dynamic alert = data.Properties["Alert"];
-
-                dynamic alertTitle = alert["Title"];
-                dynamic alertUrl = alert["Url"];
-
-                dynamic[] contributingEvents = source["ContributingEvents"];
-
-                // the first one is column titles e.g [id, timestamp, message]
-                IEnumerable<dynamic> contributingEventsData = contributingEvents.Skip(1);
-
-                return $"**[Alert]({alertUrl}) \"{alertTitle}\" was triggered**\n" +
-                       $"Contributing Events:\n" +
-                       string.Join(
-                           "\n",
-                           contributingEventsData.Select(
-                               (e, i) =>
-                                   $"[{i} ({e[2]})]({BaseUrl}/#/events?filter=@Id%3D%3D'{e[0]}'&show=expanded)"
-                           )
-                       );
-            }
-            else
-            {
-                return "Event Properties didn't contain Source and Alert fields!";
-            }
+        public string GenerateMessageText(LogEvent evt)
+        {
+            return Format(new ExpressionTemplate(MessageTemplate), evt);
         }
     }
 }
