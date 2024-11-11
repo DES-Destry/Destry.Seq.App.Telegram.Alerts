@@ -2,17 +2,20 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <PackageId>Seq.App.Telegram.Alerts</PackageId>
+    <PackageId>Destry.Seq.App.Telegram.Alerts</PackageId>
     <Description>A fork of stdray/Seq.App.Telegram that allows Seq to send Alerts to Telegram.</Description>
-    <Authors>STDray, sampletext32</Authors>
+    <Authors>STDray, sampletext32, DES-Destry</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <PackageIcon>icon.png</PackageIcon>
-    <PackageProjectUrl>https://github.com/sampletext32/Seq.App.Telegram.Alerts</PackageProjectUrl>
+    <PackageIcon>icon.jpg</PackageIcon>
+    <PackageProjectUrl>https://github.com/DES-Destry/Destry.Seq.App.Telegram.Alerts</PackageProjectUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageTags>seq-app seq serilog alert telegram</PackageTags>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <IncludeBuildOutput>true</IncludeBuildOutput>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Title>Seq Telegram alerting</Title>
+    <RepositoryUrl>https://github.com/DES-Destry/Destry.Seq.App.Telegram.Alerts</RepositoryUrl>
+    <RepositoryType>GitHub</RepositoryType>
   </PropertyGroup>
 
 
@@ -25,7 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="icon.png" Pack="true" PackagePath="/" Visible="false" />
     <None Include="./obj/publish/**/*.*" Exclude="./obj/publish/Seq.App.Telegram.dll;./obj/publish/Seq.Apps.dll;./obj/publish/Serilog.dll" Pack="true" PackagePath="lib/$(TargetFramework)" Visible="false" />
   </ItemGroup>
 
