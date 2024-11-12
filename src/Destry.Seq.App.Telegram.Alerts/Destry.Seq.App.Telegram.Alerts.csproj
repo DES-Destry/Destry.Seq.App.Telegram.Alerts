@@ -16,6 +16,9 @@
     <Title>Seq Telegram alerting</Title>
     <RepositoryUrl>https://github.com/DES-Destry/Destry.Seq.App.Telegram.Alerts</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
+    <Version>1.0.2</Version>
+    <AssemblyName>Destry.Seq.App.Telegram.Alerts</AssemblyName>
+    <RootNamespace>Destry.Seq.App.Telegram.Alerts</RootNamespace>
   </PropertyGroup>
 
 

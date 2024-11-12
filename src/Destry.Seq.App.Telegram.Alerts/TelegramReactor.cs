@@ -3,11 +3,12 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using MihaZupan;
+using Seq.App.Telegram.Alerts;
 using Seq.Apps;
 using Serilog.Events;
 using Telegram.Bot;
 
-namespace Seq.App.Telegram.Alerts
+namespace Destry.Seq.App.Telegram.Alerts
 {
     [SeqApp("Telegram notifier", Description = "Sends alerts to Telegram.")]
     public class TelegramReactor : SeqApp, ISubscribeToAsync<LogEvent>
@@ -52,24 +53,26 @@ namespace Seq.App.Telegram.Alerts
         [SeqAppSetting(DisplayName = "Socks5 proxy password", IsOptional = true, InputType = SettingInputType.Password)]
         public string Socks5ProxyPassword { get; set; }
 
-        readonly Lazy<TelegramBotClient> _telegram;
+        private readonly Lazy<TelegramBotClient> _telegram;
 
         public TelegramReactor()
         {
             _telegram = new Lazy<TelegramBotClient>(CreateTelegramBotClient, LazyThreadSafetyMode.ExecutionAndPublication);
         }
 
-        TelegramBotClient CreateTelegramBotClient()
+        private TelegramBotClient CreateTelegramBotClient()
         {
             if (string.IsNullOrEmpty(Socks5ProxyHost))
                 return new TelegramBotClient(BotToken);
+            
             var proxy = string.IsNullOrEmpty(Socks5ProxyUserName)
                 ? new HttpToSocks5Proxy(Socks5ProxyHost, Socks5ProxyPort)
                 : new HttpToSocks5Proxy(Socks5ProxyHost, Socks5ProxyPort, Socks5ProxyUserName, Socks5ProxyPassword);
+            
             return new TelegramBotClient(BotToken, new HttpClient(new HttpClientHandler { Proxy = proxy }));
         }
 
-        private readonly Throttling<uint> _throttling = new Throttling<uint>();
+        private readonly Throttling<uint> _throttling = new();
 
         private string GetBaseUri() => (BaseUrl ?? Host.BaseUri).TrimEnd('/');
 
@@ -77,11 +80,13 @@ namespace Seq.App.Telegram.Alerts
         {
             if (!_throttling.TryBegin(evt.EventType, TimeSpan.FromMinutes(SuppressionMinutes)))
                 return;
+            
             var formatter = new MessageFormatter(Log, GetBaseUri(), MessageTemplate);
             var message = formatter.GenerateMessageText(evt.Data);
+            
             try
             {
-                await _telegram.Value.SendTextMessageAsync(ChatId, message);
+                await _telegram.Value.SendMessage(ChatId, message);
             }
             catch (Exception e)
             {
