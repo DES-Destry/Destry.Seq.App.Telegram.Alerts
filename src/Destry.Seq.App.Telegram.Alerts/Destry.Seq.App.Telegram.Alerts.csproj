@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <PackageId>Destry.Seq.App.Telegram.Alerts</PackageId>
+    <PublishSingleFile>true</PublishSingleFile>
     <Description>A fork of stdray/Seq.App.Telegram that allows Seq to send Alerts to Telegram.</Description>
     <Authors>STDray, sampletext32, DES-Destry</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
@@ -16,7 +17,7 @@
     <Title>Seq Telegram alerting</Title>
     <RepositoryUrl>https://github.com/DES-Destry/Destry.Seq.App.Telegram.Alerts</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
     <AssemblyName>Destry.Seq.App.Telegram.Alerts</AssemblyName>
     <RootNamespace>Destry.Seq.App.Telegram.Alerts</RootNamespace>
   </PropertyGroup>
@@ -32,10 +33,6 @@
 
   <ItemGroup>
     <None Include="icon.jpg" Pack="true" PackagePath=""/>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="./obj/publish/**/*.*" Exclude="./obj/publish/Seq.App.Telegram.dll;./obj/publish/Seq.Apps.dll;./obj/publish/Serilog.dll" Pack="true" PackagePath="lib/$(TargetFramework)" Visible="false" />
   </ItemGroup>
 
 </Project>
