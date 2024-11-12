@@ -22,9 +22,13 @@
   <ItemGroup>
     <PackageReference Include="HttpToSocks5Proxy" Version="1.4.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="Seq.Apps" Version="2021.4.0" />
+    <PackageReference Include="Seq.Apps" Version="2023.4.0" />
     <PackageReference Include="Seq.Syntax" Version="1.0.0" />
-    <PackageReference Include="Telegram.Bot" Version="17.0.0" />
+    <PackageReference Include="Telegram.Bot" Version="22.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="icon.jpg" Pack="true" PackagePath=""/>
   </ItemGroup>
 
   <ItemGroup>

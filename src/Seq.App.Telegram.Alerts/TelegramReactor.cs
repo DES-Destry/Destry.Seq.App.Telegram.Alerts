@@ -83,7 +83,7 @@ namespace Seq.App.Telegram.Alerts
             var message = formatter.GenerateMessageText(evt.Data);
             try
             {
-                await _telegram.Value.SendTextMessageAsync(ChatId, message, ParseMode.Markdown);
+                await _telegram.Value.SendTextMessageAsync(ChatId, message);
             }
             catch (Exception e)
             {
