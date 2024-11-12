@@ -4,10 +4,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using MihaZupan;
 using Seq.Apps;
-using Seq.Apps.LogEvents;
 using Serilog.Events;
 using Telegram.Bot;
-using Telegram.Bot.Types.Enums;
 
 namespace Seq.App.Telegram.Alerts
 {
